@@ -1,0 +1,32 @@
+form {
+    width: 450px;
+    max-width: 450px;
+}
+
+div.input-group-text {
+    background-color: var(--btrap-blue);
+}
+
+input.inputError {
+    border: 2px solid var(--error);
+    -webkit-box-shadow: 0px 0px 10px 0px var(--error);
+    -moz-box-shadow: 0px 0px 10px 0px var(--error);
+    box-shadow: 0px 0px 10px 0px var(--error);
+}
+
+input.inputSuccess {
+    border: 2px solid var(--success);
+    -webkit-box-shadow: 0px 0px 10px 0px var(--success);
+    -moz-box-shadow: 0px 0px 10px 0px var(--success);
+    box-shadow: 0px 0px 10px 0px var(--success);
+}
+
+div.iconError {
+    /* background-color: var(--error); */
+    border: 2px solid var(--error);
+}
+
+div.iconSuccess {
+    border: 2px solid var(--success);
+    /* background-color: var(--success); */
+}

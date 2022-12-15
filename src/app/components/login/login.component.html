@@ -1,0 +1,122 @@
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="login()"
+  class="border rounded shadow-lg p-3 bg-light"
+>
+  <h1 class="text-primary fw-bold text-center">Login</h1>
+  <div class="mb-3">
+    <label for="emailInput" class="form-label"
+      >Email address<span class="text-danger">*</span></label
+    >
+    <div class="input-group">
+      <div
+        class="input-group-text"
+        [ngClass]="{
+          iconError: email?.touched && !email?.valid,
+          iconSuccess: email?.valid
+        }"
+      >
+        <i class="bi bi-person-fill text-light"></i>
+      </div>
+      <input
+        type="email"
+        class="form-control"
+        id="emailInput"
+        formControlName="email"
+        aria-describedby="emailError"
+        [ngClass]="{
+          inputError: email?.touched && !email?.valid,
+          inputSuccess: email?.valid
+        }"
+      />
+    </div>
+    <div
+      id="emailError"
+      class="form-text text-danger"
+      *ngIf="email?.touched && !email?.valid"
+    >
+      <p class="m-0 text-break" *ngIf="email?.errors?.['required']">
+        Email is required.
+      </p>
+      <p class="m-0 text-break" *ngIf="email?.errors?.['minlength']">
+        Email must be at least
+        {{ email?.errors?.['minlength'].requiredLength }}
+        characters long.
+      </p>
+      <p class="m-0 text-break" *ngIf="email?.errors?.['maxlength']">
+        Email can only be
+        {{ email?.errors?.['maxlength'].requiredLength }}
+        characters long.
+      </p>
+      <p class="m-0 text-break" *ngIf="email?.errors?.['email']">
+        Email has not valid format. Make sure to include @ and . in your email.
+      </p>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="passwdInput" class="form-label"
+      >Password<span class="text-danger">*</span></label
+    >
+    <div class="input-group">
+      <div
+        class="input-group-text"
+        [ngClass]="{
+          iconError: passwd?.touched && !passwd?.valid,
+          iconSuccess: passwd?.valid
+        }"
+      >
+        <i class="bi bi-lock-fill text-light"></i>
+      </div>
+      <input
+        type="password"
+        class="form-control"
+        id="passwdInput"
+        formControlName="passwd"
+        [ngClass]="{
+          inputError: passwd?.touched && !passwd?.valid,
+          inputSuccess: passwd?.valid
+        }"
+      />
+    </div>
+    <div
+      id="passwdError"
+      class="form-text text-danger"
+      *ngIf="passwd?.touched && !passwd?.valid"
+    >
+      <p class="m-0 text-break" *ngIf="passwd?.errors?.['required']">
+        Password is required.
+      </p>
+      <p class="m-0 text-break" *ngIf="passwd?.errors?.['minlength']">
+        Password must be at least
+        {{ passwd?.errors?.['minlength'].requiredLength }}
+        characters long.
+      </p>
+      <p class="m-0 text-break" *ngIf="passwd?.errors?.['maxlength']">
+        Password can only be
+        {{ passwd?.errors?.['maxlength'].requiredLength }}
+        characters long.
+      </p>
+      <p class="m-0 text-break" *ngIf="passwd?.errors?.['pattern']">
+        Password must contain at least one uppercase letter, one lowercase and
+        one number.
+      </p>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between mb-3">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="rememberCheck" />
+      <label class="form-check-label" for="rememberCheck">Remember me</label>
+    </div>
+    <a class="link-primary">Forgot password?</a>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary w-100"
+    [disabled]="!loginForm.valid"
+  >
+    Submit
+  </button>
+  <div *ngIf="validLogin === false">
+    <p class="text-danger fw-bold">Incorrect credentials, try again</p>
+  </div>
+</form>
