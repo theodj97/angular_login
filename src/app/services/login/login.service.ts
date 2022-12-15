@@ -2,26 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { catchError, throwError } from 'rxjs';
+import { AppError } from 'src/app/common/app-error';
+import { NotFoundError } from 'src/app/common/app-notFounError';
+import { BadGatewayError } from 'src/app/common/app-badGatewayError';
+import { UnAuthorized } from 'src/app/common/app-unAuthorizedError';
 
 @Injectable()
 export class LoginService {
   constructor(private _httpClient: HttpClient, private _router: Router) {}
-
-  users: User[] = [
-    new User('test1@test.test', 'Test1234!'),
-    new User('test2@test.text', 'Test1234!'),
-  ];
-
-  // login(email: string, passwd: string) {
-  //   console.log(email, passwd);
-  //   const user = this.users.find((user) => user.email === email);
-  //   if (user && user.passwd === passwd) {
-  //     sessionStorage.setItem('authToken', 'token');
-  //     this._router.navigate(['']);
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   logout() {
     sessionStorage.removeItem('authToken');
@@ -29,19 +18,30 @@ export class LoginService {
   }
 
   login(email: string, passwd: string) {
-    this._httpClient
-      .post('http://localhost:3000/api/login', {
+    return this._httpClient
+      .post(url, {
         email,
         passwd,
       })
-      .subscribe((res: any) => {
-        console.log(res);
-        if (res.token) {
-          sessionStorage.setItem('authToken', res.token);
-          return true;
-          // this._router.navigate(['']);
-        }
-        return false;
-      });
+      .pipe(
+        catchError((error: Response) => {
+          return this.handleError(error);
+        })
+      );
+  }
+
+  private handleError(error: Response) {
+    switch (error.status) {
+      case 404:
+        return throwError(() => new NotFoundError(error));
+      case 401:
+        return throwError(() => new UnAuthorized(error));
+      case 400:
+        return throwError(() => new BadGatewayError(error));
+      default:
+        return throwError(() => new AppError(error));
+    }
   }
 }
+
+const url = 'http://localhost:3000/api/login';

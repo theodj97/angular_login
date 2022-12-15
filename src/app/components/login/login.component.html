@@ -116,7 +116,18 @@
   >
     Submit
   </button>
-  <div *ngIf="validLogin === false">
-    <p class="text-danger fw-bold">Incorrect credentials, try again</p>
+  <div *ngIf="validLogin === false" class="mt-2">
+    <span *ngIf="loginError === true" class="text-danger fw-bold">
+      Incorrect login attempt
+    </span>
+    <span *ngIf="formGatewayError === true" class="text-danger fw-bold">
+      The HTTP form request is not valid
+    </span>
+    <span
+      *ngIf="formGatewayError === false && loginError === false"
+      class="text-danger fw-bold"
+    >
+      Unexpected error ocurred. Please try again later.
+    </span>
   </div>
 </form>

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BadGatewayError } from 'src/app/common/app-badGatewayError';
+import { AppError } from 'src/app/common/app-error';
+import { NotFoundError } from 'src/app/common/app-notFounError';
 import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
@@ -27,6 +30,8 @@ export class LoginComponent {
   });
 
   validLogin?: boolean;
+  loginError?: boolean;
+  formGatewayError?: boolean;
 
   get email() {
     return this.loginForm.get('email');
@@ -37,8 +42,22 @@ export class LoginComponent {
   }
 
   login() {
-    console.log(
-      this._loginService.login(this.email!.value!, this.passwd!.value!)
+    this._loginService.login(this.email!.value!, this.passwd!.value!).subscribe(
+      (response) => {
+        console.log(response);
+        sessionStorage.setItem('authToken', 'token');
+        this._router.navigate(['']);
+      },
+      (error: AppError) => {
+        console.log(error);
+        this.validLogin = false;
+        if (error instanceof NotFoundError) {
+          this.loginError = true;
+        } else if (error instanceof BadGatewayError) {
+          // Formulario no válido
+          this.formGatewayError = true;
+        } else throw error;
+      }
     );
   }
 }

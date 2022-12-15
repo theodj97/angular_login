@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -8,6 +8,7 @@ import { LoginService } from './services/login/login.service';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuardService } from './services/authGuard/auth-guard.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AppErrorHandler } from './common/app-errorHandler';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent],
@@ -18,7 +19,11 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule,
   ],
-  providers: [LoginService, AuthGuardService],
+  providers: [
+    LoginService,
+    AuthGuardService,
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
