@@ -32,6 +32,7 @@ export class LoginComponent {
   validLogin?: boolean;
   loginError?: boolean;
   formGatewayError?: boolean;
+  loading: boolean = false;
 
   get email() {
     return this.loginForm.get('email');
@@ -42,13 +43,15 @@ export class LoginComponent {
   }
 
   login() {
-    this._loginService.login(this.email!.value!, this.passwd!.value!).subscribe(
-      {
+    this.loading = true;
+    this._loginService
+      .login(this.email!.value!, this.passwd!.value!)
+      .subscribe({
         complete: () => {
           this._router.navigate(['']);
         },
         error: (error: AppError) => {
-          console.log(error);
+          this.loading = false;
           this.validLogin = false;
           if (error instanceof NotFoundError) {
             this.loginError = true;
@@ -57,23 +60,7 @@ export class LoginComponent {
             this.formGatewayError = true;
           } else throw error;
         },
-      }
-      // (response) => {
-      //   console.log(response);
-      //   sessionStorage.setItem('authToken', 'token');
-      //   this._router.navigate(['']);
-      // },
-      // (error: AppError) => {
-      //   console.log(error);
-      //   this.validLogin = false;
-      //   if (error instanceof NotFoundError) {
-      //     this.loginError = true;
-      //   } else if (error instanceof BadGatewayError) {
-      //     // Formulario no válido
-      //     this.formGatewayError = true;
-      //   } else throw error;
-      // }
-    );
+      });
   }
 }
 

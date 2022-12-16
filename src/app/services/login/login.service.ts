@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { catchError, map, throwError } from 'rxjs';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
@@ -9,11 +8,10 @@ import { UnAuthorized } from 'src/app/common/app-unAuthorizedError';
 
 @Injectable()
 export class LoginService {
-  constructor(private _httpClient: HttpClient, private _router: Router) {}
+  constructor(private _httpClient: HttpClient) {}
 
   logout() {
     sessionStorage.removeItem('authToken');
-    this._router.navigate(['login']);
   }
 
   login(email: string, passwd: string) {
