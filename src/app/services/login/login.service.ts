@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
 import { BadGatewayError } from 'src/app/common/app-badGatewayError';
@@ -24,6 +23,10 @@ export class LoginService {
         passwd,
       })
       .pipe(
+        map((response: any) => {
+          console.log(response);
+          sessionStorage.setItem('authToken', response.token);
+        }),
         catchError((error: Response) => {
           return this.handleError(error);
         })

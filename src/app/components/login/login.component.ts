@@ -43,21 +43,36 @@ export class LoginComponent {
 
   login() {
     this._loginService.login(this.email!.value!, this.passwd!.value!).subscribe(
-      (response) => {
-        console.log(response);
-        sessionStorage.setItem('authToken', 'token');
-        this._router.navigate(['']);
-      },
-      (error: AppError) => {
-        console.log(error);
-        this.validLogin = false;
-        if (error instanceof NotFoundError) {
-          this.loginError = true;
-        } else if (error instanceof BadGatewayError) {
-          // Formulario no válido
-          this.formGatewayError = true;
-        } else throw error;
+      {
+        complete: () => {
+          this._router.navigate(['']);
+        },
+        error: (error: AppError) => {
+          console.log(error);
+          this.validLogin = false;
+          if (error instanceof NotFoundError) {
+            this.loginError = true;
+          } else if (error instanceof BadGatewayError) {
+            // Formulario no válido
+            this.formGatewayError = true;
+          } else throw error;
+        },
       }
+      // (response) => {
+      //   console.log(response);
+      //   sessionStorage.setItem('authToken', 'token');
+      //   this._router.navigate(['']);
+      // },
+      // (error: AppError) => {
+      //   console.log(error);
+      //   this.validLogin = false;
+      //   if (error instanceof NotFoundError) {
+      //     this.loginError = true;
+      //   } else if (error instanceof BadGatewayError) {
+      //     // Formulario no válido
+      //     this.formGatewayError = true;
+      //   } else throw error;
+      // }
     );
   }
 }
