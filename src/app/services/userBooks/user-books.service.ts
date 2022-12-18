@@ -1,35 +1,27 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
+import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
-import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { UnAuthorized } from 'src/app/common/app-unAuthorizedError';
 import { UserTokenService } from '../userToken/user-token.service';
-import { environment } from 'src/environments/environment';
 
-@Injectable()
-export class LoginService {
+@Injectable({
+  providedIn: 'root',
+})
+export class UserBooksService {
   constructor(
     private _httpClient: HttpClient,
     private _userToken: UserTokenService
   ) {}
 
-  login(email: string, passwd: string) {
-    return this._httpClient
-      .post(environment.apiUrl + 'login', {
-        email,
-        passwd,
-      })
-      .pipe(
-        map((response: any) => {
-          console.log(response);
-          this._userToken.setToken(response.token);
-        }),
-        catchError((error: Response) => {
-          return this.handleError(error);
-        })
-      );
+  getBooks() {
+    return this._httpClient.get('http://localhost:3000/api/userBooks', {
+      headers: {
+        Authorization: 'Bearer ' + this._userToken.getToken(),
+      },
+    });
   }
 
   private handleError(error: Response) {

@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuardService } from './services/authGuard/auth-guard.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppErrorHandler } from './common/app-errorHandler';
+import { UserBooksService } from './services/userBooks/user-books.service';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent],
@@ -22,6 +23,7 @@ import { AppErrorHandler } from './common/app-errorHandler';
   providers: [
     LoginService,
     AuthGuardService,
+    UserBooksService,
     { provide: ErrorHandler, useClass: AppErrorHandler },
   ],
   bootstrap: [AppComponent],
