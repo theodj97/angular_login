@@ -14,7 +14,7 @@ export class AuthGuardService implements CanActivate {
   constructor(private _router: Router, private _userToken: UserTokenService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this._userToken.getToken()) {
+    if (this._userToken.tokenExist()) {
       return true;
     } else {
       this._router.navigate(['login']);

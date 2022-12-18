@@ -24,7 +24,7 @@ export class LoginService {
       .pipe(
         map((response: any) => {
           console.log(response);
-          this._userToken.setToken(response.token);
+          this._userToken.setToken(response);
         }),
         catchError((error: Response) => {
           return this.handleError(error);

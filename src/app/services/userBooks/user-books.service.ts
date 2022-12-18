@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
 import { UnAuthorized } from 'src/app/common/app-unAuthorizedError';
+import { environment } from 'src/environments/environment';
 import { UserTokenService } from '../userToken/user-token.service';
 
 @Injectable({
@@ -17,11 +18,13 @@ export class UserBooksService {
   ) {}
 
   getBooks() {
-    return this._httpClient.get('http://localhost:3000/api/userBooks', {
-      headers: {
-        Authorization: 'Bearer ' + this._userToken.getToken(),
-      },
-    });
+    return this._httpClient
+      .get(environment.apiUrl + 'uBooks', this._userToken.getHeader())
+      .pipe(
+        catchError((error: Response) => {
+          return this.handleError(error);
+        })
+      );
   }
 
   private handleError(error: Response) {
