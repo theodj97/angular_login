@@ -5,7 +5,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserTokenService {
-  constructor(private _httpClient: HttpClient) {}
+  constructor(private _httpClient: HttpClient) {
+    if (this.getToken()) {
+      this.setToken(this.getToken()!);
+    }
+  }
 
   private httpOptions?: { headers: HttpHeaders };
 

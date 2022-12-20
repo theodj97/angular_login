@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
@@ -21,6 +21,9 @@ export class UserBooksService {
     return this._httpClient
       .get(environment.apiUrl + 'uBooks', this._userToken.getHeader())
       .pipe(
+        map((response: any) => {
+          return response;
+        }),
         catchError((error: Response) => {
           return this.handleError(error);
         })
