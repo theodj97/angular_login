@@ -1,0 +1,7 @@
+div.img-header {
+  height: 0;
+  padding-bottom: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

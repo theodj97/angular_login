@@ -3,10 +3,11 @@ export class Book {
     private _id: number,
     private _title: string,
     private _author: string,
-    private _publisher: string,
+    private _thumbnail: string,
     private _publication_date: string,
     private _page_count: number,
-    private _genre: string
+    private _genre: number,
+    private _genre_name: string
   ) {}
 
   get id(): number {
@@ -33,12 +34,12 @@ export class Book {
     this._author = value;
   }
 
-  get publisher(): string {
-    return this._publisher;
+  get thumbnail(): string {
+    return this._thumbnail;
   }
 
-  set publisher(value: string) {
-    this._publisher = value;
+  set thumbnail(value: string) {
+    this._thumbnail = value;
   }
 
   get publication_date(): string {
@@ -57,11 +58,19 @@ export class Book {
     this._page_count = value;
   }
 
-  get genre(): string {
+  get genre(): number {
     return this._genre;
   }
 
-  set genre(value: string) {
+  set genre(value: number) {
     this._genre = value;
+  }
+
+  get genre_name(): string {
+    return this._genre_name;
+  }
+
+  set genre_name(value: string) {
+    this._genre_name = value;
   }
 }

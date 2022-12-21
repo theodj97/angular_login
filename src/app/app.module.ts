@@ -10,9 +10,13 @@ import { AuthGuardService } from './services/authGuard/auth-guard.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppErrorHandler } from './common/app-errorHandler';
 import { UserBooksService } from './services/userBooks/user-books.service';
+import { DatePipe } from '@angular/common';
+import { PasswdHashService } from './services/passwdHash/passwd-hash.service';
+import { BookComponent } from './components/book/book.component';
+import { BooksfilterComponent } from './components/booksFilter/booksfilter/booksfilter.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, BookComponent, BooksfilterComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,6 +28,8 @@ import { UserBooksService } from './services/userBooks/user-books.service';
     LoginService,
     AuthGuardService,
     UserBooksService,
+    DatePipe,
+    PasswdHashService,
     { provide: ErrorHandler, useClass: AppErrorHandler },
   ],
   bootstrap: [AppComponent],

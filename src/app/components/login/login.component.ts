@@ -5,6 +5,7 @@ import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
 import { LoginService } from 'src/app/services/login/login.service';
+import { PasswdHashService } from 'src/app/services/passwdHash/passwd-hash.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,11 @@ import { LoginService } from 'src/app/services/login/login.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  constructor(private _loginService: LoginService, private _router: Router) {}
+  constructor(
+    private _loginService: LoginService,
+    private _router: Router,
+    private _passwdHash: PasswdHashService
+  ) {}
 
   loginForm = new FormGroup({
     email: new FormControl('', [
@@ -42,10 +47,13 @@ export class LoginComponent {
     return this.loginForm.get('passwd');
   }
 
-  login() {
+  async login() {
     this.loading = true;
     this._loginService
-      .login(this.email!.value!, this.passwd!.value!)
+      .login(
+        this.email!.value!,
+        await this._passwdHash.hashPassword(this.passwd!.value!)
+      )
       .subscribe({
         complete: () => {
           this._router.navigate(['']);

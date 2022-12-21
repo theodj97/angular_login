@@ -1,0 +1,32 @@
+<div class="card mb-4 border-0 shadow">
+  <img
+    [src]="apiURL + 'images/books/' + book?.thumbnail"
+    class="card-img-top"
+    alt="{{ book?.title }}"
+  />
+  <div class="card-body">
+    <h5 class="card-title">{{ book?.title }}</h5>
+    <hr class="my-1" />
+    <div class="card-text">
+      <span class="text-primary fw-bold">{{ book?.author }} </span> <br />
+      <span>Published {{ book?.publication_date }}</span>
+      <hr class="my-2" />
+      <div class="d-flex justify-content-between">
+        <span class="text-muted">{{ book?.page_count }}</span>
+        <span
+          [ngClass]="{
+            'bg-primary': book?.genre === 1,
+            'bg-success': book?.genre === 2,
+            'bg-danger': book?.genre === 3,
+            'bg-warning': book?.genre === 4,
+            'bg-info': book?.genre === 5,
+            'bg-secondary': book?.genre === 6
+          }"
+          class="badge"
+        >
+          {{ book?.genre_name }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
