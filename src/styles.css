@@ -1,14 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
 :root {
-    --error: #f02e47;
-    --success: #49bb49;
-    --btrap-blue: #0d6efd;
+  --error: #f02e47;
+  --success: #49bb49;
+  --btrap-blue: #0d6efd;
 }
 
 html,
 body {
-    margin: 0;
+  margin: 0;
 }
