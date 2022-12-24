@@ -10,7 +10,7 @@
     >
     <div class="input-group">
       <div
-        class="input-group-text"
+        class="input-group-text bg-primary"
         [ngClass]="{
           iconError: email?.touched && !email?.valid,
           iconSuccess: email?.valid
@@ -59,7 +59,7 @@
     >
     <div class="input-group">
       <div
-        class="input-group-text"
+        class="input-group-text bg-primary"
         [ngClass]="{
           iconError: passwd?.touched && !passwd?.valid,
           iconSuccess: passwd?.valid
@@ -68,8 +68,8 @@
         <i class="bi bi-lock-fill text-light"></i>
       </div>
       <input
-        type="password"
-        class="form-control"
+        [type]="passwdVisible ? 'text' : 'password'"
+        class="form-control border-end-0"
         id="passwdInput"
         formControlName="passwd"
         [ngClass]="{
@@ -77,6 +77,22 @@
           inputSuccess: passwd?.valid
         }"
       />
+      <div
+        class="input-group-text bg-white border-start-0"
+        [ngClass]="{
+          iconError: passwd?.touched && !passwd?.valid,
+          iconSuccess: passwd?.valid
+        }"
+      >
+        <i
+          class="bi"
+          [ngClass]="{
+            'bi-eye': !passwdVisible,
+            'bi-eye-slash': passwdVisible
+          }"
+          (click)="passwdVisible = !passwdVisible"
+        ></i>
+      </div>
     </div>
     <div
       id="passwdError"

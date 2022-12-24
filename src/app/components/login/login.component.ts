@@ -38,6 +38,7 @@ export class LoginComponent {
   loginError?: boolean;
   formGatewayError?: boolean;
   loading: boolean = false;
+  passwdVisible: boolean = false;
 
   get email() {
     return this.loginForm.get('email');

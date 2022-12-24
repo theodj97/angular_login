@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
         });
       },
       complete: () => {
-        this.bookListFiltered = this.bookList;
+        this.filterByGenre(this._activatedRoute.snapshot.queryParams['genres']);
       },
       error: (error: AppError) => {
         if (error instanceof NotFoundError) {
@@ -51,9 +51,12 @@ export class HomeComponent implements OnInit {
   }
 
   filterByGenre(genres: Array<number>) {
-    this.bookListFiltered = this.bookList?.filter((book) =>
-      genres.includes(book.genre)
-    );
-    console.log(this.bookListFiltered);
+    if (genres === undefined || genres.length === 0) {
+      this.bookListFiltered = this.bookList;
+    } else {
+      this.bookListFiltered = this.bookList?.filter((book) =>
+        genres.includes(book.genre)
+      );
+    }
   }
 }
