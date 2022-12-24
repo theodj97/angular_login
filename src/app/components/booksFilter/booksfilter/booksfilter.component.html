@@ -1,13 +1,14 @@
-<ul class="nav flex-column" *ngFor="let genre of genresList">
+<ul class="nav flex-column" *ngFor="let genre of genresList; index as i">
   <div class="form-check">
     <input
       class="form-check-input"
       type="checkbox"
       (change)="filterGenre(genre!.id, $event)"
-      value=""
+      [checked]="checkBoxesActives![i]"
     />
     <label class="form-check-label" for="flexCheckDefault">
       {{ genre?.genre }}
     </label>
+    {{ i }}
   </div>
 </ul>

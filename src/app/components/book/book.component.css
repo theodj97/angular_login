@@ -5,3 +5,7 @@ div.img-header {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+hr {
+  margin: 0.3em 0 !important;
+}

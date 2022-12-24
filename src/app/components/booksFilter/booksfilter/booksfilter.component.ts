@@ -18,14 +18,27 @@ export class BooksfilterComponent implements OnInit {
   ) {}
 
   genresList?: Array<Genre>;
-  genreSettedById?: Array<number> = [];
+  genreSettedById: Array<number> = [];
+  checkBoxesActives?: Array<boolean> = [];
 
   ngOnInit(): void {
     this._booksGenreService.getGenres().subscribe({
       next: (data: any) => {
         this.genresList = data;
       },
-      complete: () => {},
+      complete: () => {
+        if (
+          this._router.routerState.snapshot.root.queryParams['genres'] !==
+          undefined
+        ) {
+          this.genreSettedById = JSON.parse(
+            this._router.routerState.snapshot.root.queryParams['genres']
+          );
+          this.checkBoxesActives = this.genresList?.map((genre) =>
+            this.genreSettedById.includes(genre.id)
+          );
+        }
+      },
       error: (error: AppError) => {
         if (error instanceof NotFoundError) {
         } else if (error instanceof BadGatewayError) {
