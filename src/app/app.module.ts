@@ -14,9 +14,10 @@ import { DatePipe } from '@angular/common';
 import { PasswdHashService } from './services/passwdHash/passwd-hash.service';
 import { BookComponent } from './components/book/book.component';
 import { BooksfilterComponent } from './components/booksFilter/booksfilter/booksfilter.component';
+import { NavMenuComponent } from './components/navMenu/nav-menu/nav-menu.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, BookComponent, BooksfilterComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, BookComponent, BooksfilterComponent, NavMenuComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

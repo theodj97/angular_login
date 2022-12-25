@@ -60,8 +60,18 @@ export class BooksfilterComponent implements OnInit {
   }
 
   private setParams() {
+    // if (this.genreSettedById.length < 1) {
+    //   this.removeParams();
+    //   return;
+    // }
     this._router.navigate([], {
       queryParams: { genres: JSON.stringify(this.genreSettedById) },
+    });
+  }
+
+  private removeParams() {
+    this._router.navigate([], {
+      queryParams: { genres: undefined },
     });
   }
 }

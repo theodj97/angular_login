@@ -33,7 +33,14 @@ export class HomeComponent implements OnInit {
         });
       },
       complete: () => {
-        this.filterByGenre(this._activatedRoute.snapshot.queryParams['genres']);
+        // Con este método obtengo los parámetros que se van añadiendo a la URL
+        this._activatedRoute.queryParams.subscribe((params) => {
+          if (params['genres']) {
+            this.filterByGenre(JSON.parse(params['genres']));
+          } else {
+            this.bookListFiltered = this.bookList;
+          }
+        });
       },
       error: (error: AppError) => {
         if (error instanceof NotFoundError) {
@@ -41,16 +48,10 @@ export class HomeComponent implements OnInit {
         } else throw error;
       },
     });
-
-    // Con este método obtengo los parámetros que se van añadiendo a la URL
-    this._activatedRoute.queryParams.subscribe((params) => {
-      if (params['genres']) {
-        this.filterByGenre(JSON.parse(params['genres']));
-      }
-    });
   }
 
   filterByGenre(genres: Array<number>) {
+    console.log(genres.length);
     if (genres === undefined || genres.length === 0) {
       this.bookListFiltered = this.bookList;
     } else {
