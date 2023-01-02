@@ -17,7 +17,7 @@ export class BooksfilterComponent implements OnInit {
     private _router: Router
   ) {}
 
-  queryPrms?: NavigationExtras;
+  queryPrms?: NavigationExtras = {};
   genresList?: Array<Genre>;
   orderByList?: Array<string> = [
     'Order by',
@@ -49,6 +49,9 @@ export class BooksfilterComponent implements OnInit {
           this.checkBoxesActives = this.genresList?.map((genre) =>
             this.genreSettedById.includes(genre.id)
           );
+          this.queryPrms = Object.assign({}, this.queryPrms, {
+            genres: JSON.stringify(this.genreSettedById),
+          });
         }
         if (
           this._router.routerState.snapshot.root.queryParams['orderBy'] !==
@@ -59,6 +62,9 @@ export class BooksfilterComponent implements OnInit {
               this._router.routerState.snapshot.root.queryParams['orderBy']
             )
           );
+          this.queryPrms = Object.assign({}, this.queryPrms, {
+            orderBy: JSON.stringify(this.orderBySelector),
+          });
         }
       },
       error: (error: AppError) => {

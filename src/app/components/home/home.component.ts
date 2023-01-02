@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
-import { Book } from 'src/app/models/book';
 import { UserBooksService } from 'src/app/services/userBooks/user-books.service';
 import { DatePipe } from '@angular/common';
 import { UserBook } from 'src/app/models/userbook';
@@ -104,8 +103,6 @@ export class HomeComponent implements OnInit {
       default: {
         // Cambiar porque aquí coge la referencia y no el valor
         this.bookListFiltered = this.bookList;
-        console.log(this.bookList);
-        console.log(this.bookListFiltered);
         break;
       }
     }
