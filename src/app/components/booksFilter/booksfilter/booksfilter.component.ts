@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
@@ -17,9 +17,20 @@ export class BooksfilterComponent implements OnInit {
     private _router: Router
   ) {}
 
+  queryPrms?: NavigationExtras;
   genresList?: Array<Genre>;
+  orderByList?: Array<string> = [
+    'Order by',
+    'Higher number of pages',
+    'Lower number of pages',
+    'Oldest published',
+    'Newest published',
+    'Oldest purchased',
+    'Newest purchased',
+  ];
   genreSettedById: Array<number> = [];
   checkBoxesActives?: Array<boolean> = [];
+  orderBySelector?: number;
 
   ngOnInit(): void {
     this._booksGenreService.getGenres().subscribe({
@@ -27,6 +38,7 @@ export class BooksfilterComponent implements OnInit {
         this.genresList = data;
       },
       complete: () => {
+        // Este método se debe de poder optimizar, o hacer el proceso en un método aparte
         if (
           this._router.routerState.snapshot.root.queryParams['genres'] !==
           undefined
@@ -36,6 +48,16 @@ export class BooksfilterComponent implements OnInit {
           );
           this.checkBoxesActives = this.genresList?.map((genre) =>
             this.genreSettedById.includes(genre.id)
+          );
+        }
+        if (
+          this._router.routerState.snapshot.root.queryParams['orderBy'] !==
+          undefined
+        ) {
+          this.orderBySelector = Number(
+            JSON.parse(
+              this._router.routerState.snapshot.root.queryParams['orderBy']
+            )
           );
         }
       },
@@ -50,28 +72,36 @@ export class BooksfilterComponent implements OnInit {
   filterGenre(id: number, event: any) {
     if (event.target.checked) {
       this.genreSettedById?.push(id);
-      this.setParams();
+      this.setParams(1);
     } else {
       this.genreSettedById = this.genreSettedById?.filter(
         (genreId) => genreId !== id
       );
-      this.setParams();
+      this.setParams(1);
     }
   }
 
-  private setParams() {
-    // if (this.genreSettedById.length < 1) {
-    //   this.removeParams();
-    //   return;
-    // }
-    this._router.navigate([], {
-      queryParams: { genres: JSON.stringify(this.genreSettedById) },
-    });
+  private setParams(toBeFilter: number) {
+    switch (toBeFilter) {
+      case 1:
+        this.queryPrms = Object.assign({}, this.queryPrms, {
+          genres: JSON.stringify(this.genreSettedById),
+        });
+        break;
+      case 2:
+        this.queryPrms = Object.assign({}, this.queryPrms, {
+          orderBy: JSON.stringify(this.orderBySelector),
+        });
+        break;
+      default:
+        this.queryPrms = {};
+        break;
+    }
+    this._router.navigate([], { queryParams: this.queryPrms });
   }
 
-  private removeParams() {
-    this._router.navigate([], {
-      queryParams: { genres: undefined },
-    });
+  orderByChange(event: any) {
+    this.orderBySelector = event.target.value;
+    this.setParams(2);
   }
 }

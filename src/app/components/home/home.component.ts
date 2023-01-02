@@ -6,6 +6,7 @@ import { NotFoundError } from 'src/app/common/app-notFounError';
 import { Book } from 'src/app/models/book';
 import { UserBooksService } from 'src/app/services/userBooks/user-books.service';
 import { DatePipe } from '@angular/common';
+import { UserBook } from 'src/app/models/userbook';
 
 @Component({
   selector: 'app-home',
@@ -18,27 +19,29 @@ export class HomeComponent implements OnInit {
     private _datePipe: DatePipe,
     private _activatedRoute: ActivatedRoute
   ) {}
-  bookList?: Array<Book>;
-  bookListFiltered?: Array<Book>;
+  bookList?: Array<UserBook>;
+  bookListFiltered?: Array<UserBook>;
 
   ngOnInit(): void {
     this._userBook.getBooks().subscribe({
       next: (data: any) => {
         this.bookList = data;
+      },
+      complete: () => {
         this.bookList?.forEach((book) => {
           book.publication_date = this._datePipe.transform(
             book.publication_date,
             'dd/MM/yyyy'
           )!;
         });
-      },
-      complete: () => {
+        this.bookListFiltered = this.bookList;
         // Con este método obtengo los parámetros que se van añadiendo a la URL
         this._activatedRoute.queryParams.subscribe((params) => {
           if (params['genres']) {
             this.filterByGenre(JSON.parse(params['genres']));
-          } else {
-            this.bookListFiltered = this.bookList;
+          }
+          if (params['orderBy']) {
+            this.orderBy(Number(JSON.parse(params['orderBy'])));
           }
         });
       },
@@ -51,13 +54,60 @@ export class HomeComponent implements OnInit {
   }
 
   filterByGenre(genres: Array<number>) {
-    console.log(genres.length);
     if (genres === undefined || genres.length === 0) {
       this.bookListFiltered = this.bookList;
     } else {
       this.bookListFiltered = this.bookList?.filter((book) =>
         genres.includes(book.genre)
       );
+    }
+  }
+
+  orderBy(idOrder: number) {
+    switch (idOrder) {
+      case 1: {
+        this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
+          a.page_count < b.page_count ? 1 : -1
+        );
+        break;
+      }
+      case 2: {
+        this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
+          a.page_count > b.page_count ? 1 : -1
+        );
+        break;
+      }
+      case 3: {
+        this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
+          a.publication_date < b.publication_date ? 1 : -1
+        );
+        break;
+      }
+      case 4: {
+        this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
+          a.publication_date > b.publication_date ? 1 : -1
+        );
+        break;
+      }
+      case 5: {
+        this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
+          a.purchased < b.purchased ? 1 : -1
+        );
+        break;
+      }
+      case 6: {
+        this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
+          a.purchased > b.purchased ? 1 : -1
+        );
+        break;
+      }
+      default: {
+        // Cambiar porque aquí coge la referencia y no el valor
+        this.bookListFiltered = this.bookList;
+        console.log(this.bookList);
+        console.log(this.bookListFiltered);
+        break;
+      }
     }
   }
 }
