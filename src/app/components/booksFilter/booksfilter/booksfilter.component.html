@@ -12,6 +12,7 @@
     </label>
   </div>
 </div>
+<hr />
 <select class="form-select mt-3" (change)="orderByChange($event)">
   <option
     *ngFor="let orderBy of orderByList; index as i"
@@ -21,3 +22,10 @@
     {{ orderBy }}
   </option>
 </select>
+<hr />
+<div class="nav flex-column mt-3">
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" />
+    <label class="form-check-label" for="flexCheckDefault"> Readed </label>
+  </div>
+</div>

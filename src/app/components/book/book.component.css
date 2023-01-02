@@ -9,3 +9,15 @@ div.img-header {
 hr {
   margin: 0.3em 0 !important;
 }
+
+.readed-band {
+  position: absolute;
+  top: 5px;
+  left: 2px;
+}
+
+.more-info {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Book } from 'src/app/models/book';
+import { UserBook } from 'src/app/models/userbook';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
   inputs: ['book'],
 })
 export class BookComponent {
-  @Input('book') book?: Book;
+  @Input('book') book?: UserBook;
+  // ApiURL da la url de la API para poder acceder a las imágenes desde el HTML
   apiURL = environment.apiUrl;
 }

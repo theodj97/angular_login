@@ -1,9 +1,17 @@
-<div class="card mb-4 border-0 shadow">
+<div class="card mb-4 border-0 shadow position-relative">
   <img
     [src]="apiURL + 'images/books/' + book?.thumbnail"
     class="card-img-top"
     alt="{{ book?.title }}"
   />
+  <div *ngIf="book?.readed"
+    class="readed-band badge rounded-pill shadow bg-yellow bg-gradient text-dark"
+  >
+    Readed
+  </div>
+  <button class="more-info shadow border-0 rounded-circle bg-light">
+    <i class="bi bi-three-dots"></i>
+  </button>
   <div class="card-body">
     <h5 class="card-title">{{ book?.title }}</h5>
     <hr class="my-1" />

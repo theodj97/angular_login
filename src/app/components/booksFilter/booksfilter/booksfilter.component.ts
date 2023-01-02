@@ -90,14 +90,10 @@ export class BooksfilterComponent implements OnInit {
   private setParams(toBeFilter: number) {
     switch (toBeFilter) {
       case 1:
-        this.queryPrms = Object.assign({}, this.queryPrms, {
-          genres: JSON.stringify(this.genreSettedById),
-        });
+        this.setParamsGenre();
         break;
       case 2:
-        this.queryPrms = Object.assign({}, this.queryPrms, {
-          orderBy: JSON.stringify(this.orderBySelector),
-        });
+        this.setParamsOrderBy();
         break;
       default:
         this.queryPrms = {};
@@ -109,5 +105,17 @@ export class BooksfilterComponent implements OnInit {
   orderByChange(event: any) {
     this.orderBySelector = event.target.value;
     this.setParams(2);
+  }
+
+  private setParamsGenre() {
+    this.queryPrms = Object.assign({}, this.queryPrms, {
+      genres: JSON.stringify(this.genreSettedById),
+    });
+  }
+
+  private setParamsOrderBy() {
+    this.queryPrms = Object.assign({}, this.queryPrms, {
+      orderBy: JSON.stringify(this.orderBySelector),
+    });
   }
 }
