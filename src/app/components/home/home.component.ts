@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BadGatewayError } from 'src/app/common/app-badGatewayError';
 import { AppError } from 'src/app/common/app-error';
 import { NotFoundError } from 'src/app/common/app-notFounError';
@@ -33,15 +33,10 @@ export class HomeComponent implements OnInit {
             'dd/MM/yyyy'
           )!;
         });
-        this.bookListFiltered = this.bookList;
         // Con este método obtengo los parámetros que se van añadiendo a la URL
         this._activatedRoute.queryParams.subscribe((params) => {
-          if (params['genres']) {
-            this.filterByGenre(JSON.parse(params['genres']));
-          }
-          if (params['orderBy']) {
-            this.orderBy(Number(JSON.parse(params['orderBy'])));
-          }
+          console.log('entro');
+          this.filterBooks(params);
         });
       },
       error: (error: AppError) => {
@@ -52,19 +47,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  filterByGenre(genres: Array<number>) {
-    if (genres === undefined || genres.length === 0) {
-      this.bookListFiltered = this.bookList;
-    } else {
-      this.bookListFiltered = this.bookList?.filter((book) =>
-        genres.includes(book.genre)
-      );
-    }
+  private filterByGenre(genres: Array<number>) {
+    this.bookListFiltered = this.bookListFiltered?.filter((book) =>
+      genres.includes(book.genre)
+    );
   }
 
-  orderBy(idOrder: number) {
+  private orderBy(idOrder: number) {
     switch (idOrder) {
       case 1: {
+        console.log('entro');
         this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
           a.page_count < b.page_count ? 1 : -1
         );
@@ -101,10 +93,41 @@ export class HomeComponent implements OnInit {
         break;
       }
       default: {
-        // Cambiar porque aquí coge la referencia y no el valor
-        this.bookListFiltered = this.bookList;
+        this.bookListFiltered = this.bookListFiltered?.sort((a, b) =>
+          a.id < b.id ? 1 : -1
+        );
+      }
+    }
+  }
+
+  private filterByReaded(state: string) {
+    switch (state) {
+      case 'readed': {
+        this.bookListFiltered = this.bookListFiltered?.filter(
+          (book) => book.readed
+        );
         break;
       }
+      case 'unreaded': {
+        this.bookListFiltered = this.bookListFiltered?.filter(
+          (book) => !book.readed
+        );
+        break;
+      }
+    }
+  }
+
+  private filterBooks(params: Params) {
+    this.bookListFiltered = this.bookList;
+    // Marco 2 porque, al jsonizar el array de géneros, la longitud cuando no tiene ningún valor es 2
+    if (params['genres'] && params['genres'].length > 2) {
+      this.filterByGenre(JSON.parse(params['genres']));
+    }
+    if (params['readed'] !== undefined) {
+      this.filterByReaded(JSON.parse(params['readed']));
+    }
+    if (params['orderBy']) {
+      this.orderBy(Number(JSON.parse(params['orderBy'])));
     }
   }
 }

@@ -24,8 +24,50 @@
 </select>
 <hr />
 <div class="nav flex-column mt-3">
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" />
+  <!-- <div class="form-check">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      [checked]="readedInput"
+      (change)="filterReaded($event)"
+    />
     <label class="form-check-label" for="flexCheckDefault"> Readed </label>
+  </div> -->
+
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="readedRadios"
+      id="readed"
+      value="readed"
+      [(ngModel)]="readedOption"
+      (ngModelChange)="onReadedChange($event)"
+    />
+    <label class="form-check-label" for="readed"> Readed </label>
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="readedRadios"
+      id="unreaded"
+      value="unreaded"
+      [(ngModel)]="readedOption"
+      (ngModelChange)="onReadedChange($event)"
+    />
+    <label class="form-check-label" for="unreaded"> Unreaded </label>
+  </div>
+  <div class="form-check">
+    <input
+      class="form-check-input"
+      type="radio"
+      name="readedRadios"
+      id="bothReaded"
+      value="both"
+      [(ngModel)]="readedOption"
+      (ngModelChange)="onReadedChange($event)"
+    />
+    <label class="form-check-label" for="bothReaded"> Both </label>
   </div>
 </div>

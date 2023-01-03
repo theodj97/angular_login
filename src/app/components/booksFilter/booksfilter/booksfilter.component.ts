@@ -31,6 +31,7 @@ export class BooksfilterComponent implements OnInit {
   genreSettedById: Array<number> = [];
   checkBoxesActives?: Array<boolean> = [];
   orderBySelector?: number;
+  readedOption?: string = 'both';
 
   ngOnInit(): void {
     this._booksGenreService.getGenres().subscribe({
@@ -66,6 +67,14 @@ export class BooksfilterComponent implements OnInit {
             orderBy: JSON.stringify(this.orderBySelector),
           });
         }
+        if (
+          this._router.routerState.snapshot.root.queryParams['readed'] !==
+          undefined
+        ) {
+          this.readedOption = JSON.parse(
+            this._router.routerState.snapshot.root.queryParams['readed']
+          );
+        }
       },
       error: (error: AppError) => {
         if (error instanceof NotFoundError) {
@@ -87,6 +96,16 @@ export class BooksfilterComponent implements OnInit {
     }
   }
 
+  onReadedChange(event: any) {
+    this.readedOption = event;
+    this.setParams(3);
+  }
+
+  orderByChange(event: any) {
+    this.orderBySelector = event.target.value;
+    this.setParams(2);
+  }
+
   private setParams(toBeFilter: number) {
     switch (toBeFilter) {
       case 1:
@@ -95,16 +114,14 @@ export class BooksfilterComponent implements OnInit {
       case 2:
         this.setParamsOrderBy();
         break;
+      case 3:
+        this.setParamsReaded();
+        break;
       default:
         this.queryPrms = {};
         break;
     }
     this._router.navigate([], { queryParams: this.queryPrms });
-  }
-
-  orderByChange(event: any) {
-    this.orderBySelector = event.target.value;
-    this.setParams(2);
   }
 
   private setParamsGenre() {
@@ -116,6 +133,12 @@ export class BooksfilterComponent implements OnInit {
   private setParamsOrderBy() {
     this.queryPrms = Object.assign({}, this.queryPrms, {
       orderBy: JSON.stringify(this.orderBySelector),
+    });
+  }
+
+  private setParamsReaded() {
+    this.queryPrms = Object.assign({}, this.queryPrms, {
+      readed: JSON.stringify(this.readedOption),
     });
   }
 }
