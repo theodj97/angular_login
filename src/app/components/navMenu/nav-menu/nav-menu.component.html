@@ -1,9 +1,30 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary py-1">
   <div class="container-fluid d-flex flex-row-reverse">
-    <a class="navbar-brand ps-4 d-flex align-items-center">
+    <a
+      *ngIf="userLoggedIn; else unLogged"
+      class="navbar-brand ps-4 d-flex align-items-center"
+    >
       <i class="bi bi-person-circle text-white"></i>
-      <span class="ps-2 text-white">Theo</span>
+      <span class="ps-2 h6 m-auto text-white">Theo Delvas</span>
     </a>
+    <ng-template #unLogged>
+      <div class="dropstart">
+        <button
+          class="btn btn-primary dropdown-toggle py-0 px-2"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-circle"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" routerLink="/login">Log in</a>
+          </li>
+          <li><a class="dropdown-item" href="#">Register</a></li>
+        </ul>
+      </div>
+    </ng-template>
     <button
       class="navbar-toggler"
       type="button"
@@ -19,7 +40,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a
-            class="nav-link"
+            class="nav-link text-uppercase"
             routerLink="/home"
             routerLinkActive="active"
             >Home</a
@@ -27,14 +48,27 @@
         </li>
         <li class="nav-item">
           <a
-            class="nav-link"
+            class="nav-link text-uppercase"
             routerLink="/library"
             routerLinkActive="active"
             >Library</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link">Store</a>
+          <a
+            class="nav-link text-uppercase"
+            routerLink="/store"
+            routerLinkActive="active"
+            >Store</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-uppercase"
+            routerLink="/forum"
+            routerLinkActive="active"
+            >Forum</a
+          >
         </li>
       </ul>
       <form class="d-flex">

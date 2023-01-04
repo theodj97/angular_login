@@ -13,6 +13,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     component: LibraryComponent,
   },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

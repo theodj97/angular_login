@@ -35,7 +35,7 @@ export class LibraryComponent implements OnInit {
         });
         // Con este método obtengo los parámetros que se van añadiendo a la URL
         this._activatedRoute.queryParams.subscribe((params) => {
-          console.log('entro');
+          console.log('entro queryparams');
           this.filterBooks(params);
         });
       },

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserTokenService {
-  constructor(private _httpClient: HttpClient) {
+  constructor() {
     if (this.getToken()) {
       this.setToken(this.getToken()!);
     }
