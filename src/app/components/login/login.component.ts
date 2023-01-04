@@ -57,7 +57,7 @@ export class LoginComponent {
       )
       .subscribe({
         complete: () => {
-          this._router.navigate(['']);
+          this._router.navigate(['/library']);
         },
         error: (error: AppError) => {
           this.loading = false;

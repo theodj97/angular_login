@@ -15,15 +15,18 @@ import { PasswdHashService } from './services/passwdHash/passwd-hash.service';
 import { BookComponent } from './components/book/book.component';
 import { BooksfilterComponent } from './components/booksFilter/booksfilter/booksfilter.component';
 import { NavMenuComponent } from './components/navMenu/nav-menu/nav-menu.component';
+import { RouterModule } from '@angular/router';
+import { LibraryComponent } from './components/library/library.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, BookComponent, BooksfilterComponent, NavMenuComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, BookComponent, BooksfilterComponent, NavMenuComponent, LibraryComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    RouterModule
   ],
   providers: [
     LoginService,
